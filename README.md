@@ -5,4 +5,4 @@ the options for each connection allows for a ssl connection to be creating betwe
 
 ex. json config object.
 will listen on port 8001 and forward it to the host on port 7001 using a ssl certificate to encrypt it.
-    {"source":8001, "dest":["localhost", 7001],"ssl":True}
+    {"source":8001, "dest":["localhost", 7001],"ssl":true}
