@@ -19,14 +19,12 @@ def forward(src, dst):
     #loop forever
     while True:
         #read data from the source
-        data = src.recv(1024)
-        #if there is data send it to the destination
-        if data:
-            dst.send(data)
-        #if there is no data, break
-        else:
-            break
-
+        data = src.recvfrom(1024)[0]
+        #if there is no data, pass
+        if not data:
+            pass
+        #write the data to the destination
+        dst.send(data)
 
 def handle_connections(port, dest):
     #create the main socket
