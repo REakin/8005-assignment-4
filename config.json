@@ -1,4 +1,6 @@
 [
-    {"source":80, "dest":["localhost", 80]},
-    {"source":8001, "dest":["localhost", 7001]}
+    {"source":70, "dest":["localhost", 80]},
+    {"source":8001, "dest":["localhost", 7001]},
+    {"source":80, "dest":["52.43.63.140", 80]},
+    {"source":7000, "dest":["52.43.63.140", 22]}
 ]
