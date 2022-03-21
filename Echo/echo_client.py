@@ -7,7 +7,7 @@ def main():
     #create the socket
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     #connect to the server
-    sock.connect(('localhost', 8001))
+    sock.connect(('localhost', 8000))
     while True:
         #read the data
         data = input('> ')

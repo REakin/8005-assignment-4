@@ -1,2 +1,5 @@
 ./config.json
 config.json
+SSL-Echo/*.pem
+SSL-Echo/*.crt
+config.json

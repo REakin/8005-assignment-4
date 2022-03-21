@@ -6,35 +6,32 @@
 import socket
 import ssl
 import sys
+import os
 
-def main(filepath):
+os.environ["SSL_CERT_FILE"] = 'server.cert'
+
+def main(certfile, keyfile):
     # create an INET, STREAMing socket
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    # listen on port 8001
-    s.bind(('', 8001))
-    s.listen(1)
-    # create a SSL context
-    context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+    context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH, cafile=None)
     # load the certificate
-    context.load_cert_chain(certfile=filepath, keyfile=filepath)
-    # create a SSL connection
+    context.load_cert_chain(certfile=certfile, keyfile=keyfile)
+    s.bind(('',8001))
+    s.listen(1)
+    sock, address = s.accept()
+    sslsock = context.wrap_socket(sock, server_side=True)
     while True:
-        conn, addr = s.accept()
-        # create a SSL connection
-        ssl_sock = context.wrap_socket(conn, server_side=True)
-        # receive the message
-        data = ssl_sock.recv(1024)
+        data = sslsock.recv(1024)
         print('Received', repr(data))
-        # send the message
-        ssl_sock.sendall(data)
-        # close the connection
-        ssl_sock.close()
-
-
+        sslsock.send(data)
+        sslsock.close()
+        break
+    s.close()
 if __name__ == "__main__":
     #parse command line arguments
-    if len(sys.argv) != 2:
+    if len(sys.argv) != 3:
         print("Usage: python3 server.py <filepath>")
         sys.exit()
-    filepath = sys.argv[1]
-    main(filepath)
+    certfile = sys.argv[1]
+    keyfile = sys.argv[2]
+    main(certfile, keyfile)

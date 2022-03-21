@@ -12,14 +12,15 @@ import ssl
 def main(host, port):
     # create an INET, STREAMing socket
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    # connect to the server
-    s.connect((host, port))
-    # create a SSL context
     context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
+    context.load_verify_locations(cafile="ca.crt", capath=None)
+    # context.verify_mode = ssl.CERT_OPTIONAL
+    context.check_hostname = False
     # create a SSL connection
     ssl_sock = context.wrap_socket(s)
+    ssl_sock.connect((host, port))
     # send the message
-    ssl_sock.sendall(b'Hello, world!')
+    ssl_sock.send(b'Hello, world!')
     # receive the message
     data = ssl_sock.recv(1024)
     print('Received', repr(data))
