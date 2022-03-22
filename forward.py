@@ -19,12 +19,17 @@ def forward(src, dst):
     #loop forever
     while True:
         #read data from the source
-        data = src.recv(1024)
-        #if there is no data, pass
-        if not data:
-            pass
-        #write the data to the destination
-        dst.send(data)
+        try:
+            data = src.recv(1024)
+            #if there is no data, pass
+            if not data:
+                pass
+            #write the data to the destination
+            dst.send(data)
+        except:
+            #if there is an error, break
+            print("connection closed: \n" + "source: "+str(src.getpeername())+"\ndestination: "+str(dst.getpeername()))
+            break
 
 def handle_connections(port, dest):
     #create the main socket
@@ -87,11 +92,17 @@ def main():
             t=threading.Thread(target=handle_ssl_connections, args=(o['source'], o['dest'],o['ssl_cert']))
         else:
             t = threading.Thread(target=handle_connections, args=(o['source'], o['dest']))
+        t.daemon = True
         t.start()  
         threads.append(t)
-    #wait for the threads to finish
-    for t in threads:
-        t.join()
+    #loop forever
+    while True:
+        #get input from the keyboard
+        command = input()
+        #if the command is quit, exit
+        if command == 'quit':
+            #exit
+            sys.exit()
 
 
 if __name__ == "__main__":

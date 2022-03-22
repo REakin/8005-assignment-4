@@ -30,7 +30,7 @@ def main(host, port):
 if __name__ == "__main__":
     #parse command line arguments
     if len(sys.argv) != 3:
-        print("Usage: python3 client.py <host>")
+        print("Usage: python3 client.py <host> <port>")
         sys.exit()
     host = sys.argv[1]
     port = int(sys.argv[2])
