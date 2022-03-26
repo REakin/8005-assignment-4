@@ -35,9 +35,9 @@ def handle_connections(port, dest):
     #create the main socket
     serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     #bind the socket to a port
-    serversocket.bind(('localhost', port))
+    serversocket.bind(('', port))
     #listen for connections
-    serversocket.listen(5)
+    serversocket.listen(10)
     #create the destination
     dst = (dest[0], dest[1])
     #loop forever
@@ -60,9 +60,9 @@ def handle_ssl_connections(port, dest,cafile):
     #create the main socket
     serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     #bind the socket to a port
-    serversocket.bind(('localhost', port))
+    serversocket.bind(('', port))
     #listen for connections
-    serversocket.listen(5)
+    serversocket.listen(10)
     #create the destination
     dst = (dest[0], dest[1])
     #create the ssl context
