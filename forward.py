@@ -48,6 +48,8 @@ def handle_connections(port, dest):
         dst_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         #connect to the destination
         dst_socket.connect(dst)
+        #print the connection info
+        print("connection established: \n" + "source: "+str(clientsocket.getpeername())+" - destination: "+str(dst_socket.getpeername()))
         #create a new thread to forward the data
         t = threading.Thread(target=forward, args=(clientsocket, dst_socket))
         t.start()
@@ -77,6 +79,8 @@ def handle_ssl_connections(port, dest,cafile):
         dst_socket = context.wrap_socket(dst_socket)
         #connect to the destination
         dst_socket.connect(dst)
+        #print the connection info
+        print("SSL connection established: \n" + "source: "+str(clientsocket.getpeername())+" - destination: "+str(dst_socket.getpeername()))
         #create a new thread to forward the data
         t = threading.Thread(target=forward, args=(clientsocket, dst_socket))
         t.start()
